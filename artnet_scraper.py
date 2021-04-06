@@ -8,14 +8,14 @@ import re
 import time
 from datetime import datetime
 
-def storeImg(url: str, output_path: str):
+def storeImg(url: str, output_path: str, filename: str):
     """
     Opens the image and store in the output folder.
     """
     req = Request(url, headers={'User-Agent': 'Mozilla/6.0'})
     try:
         img = Image.open(urlopen(req))
-        imgName = 'img_'+datetime.now().strftime("%d%m%Y_%H%M%S%f")+'.jpg'
+        imgName = filename+'.jpg'
         img.save('{}'.format(output_path+imgName))
     except:
         time.sleep(0.1)
@@ -33,7 +33,7 @@ def FindStoreImgUrl(artwork_links: list, output_path: str):
             imgUrl = imgArea.find("img")['src']
             baseUrl = '/'.join(imgUrl.split('/')[:6])
             imgUrl = '/'.join(imgUrl.split('/')[6:])
-            storeImg(baseUrl + '/' + quote(imgUrl), output_path)
+            storeImg(baseUrl + '/' + quote(imgUrl), output_path, imgUrl[:-4])
         except:
             time.sleep(0.1)
         	
